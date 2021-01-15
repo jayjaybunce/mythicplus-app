@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,6 +11,8 @@ const Stack = createStackNavigator();
 type Props = any;
 
 const App: React.FC<Props> = () => {
+  const [isDataFetched, setIsDataFetched] = useState(false);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -23,6 +25,7 @@ const App: React.FC<Props> = () => {
               backgroundColor: '#0e1014',
               borderBottomWidth: 0,
               shadowColor: 'transparent',
+              height: 40,
             },
             headerTitleStyle: {
               color: '#3776A8',

@@ -85,6 +85,7 @@ const SearchableDropdown = ({
   placeholderTwo,
   updater,
   setOverallScore,
+  setIsDataFetched,
 }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [valueOne, setValueOne] = useState('');
@@ -108,6 +109,7 @@ const SearchableDropdown = ({
       temp += run.score;
     });
     setOverallScore(temp);
+    setIsDataFetched(true);
   };
 
   const onValueSelect = selection => {

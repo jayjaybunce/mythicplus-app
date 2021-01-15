@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Text, SearchBar } from 'react-native-elements';
-import { View, ScrollView, SafeAreaView } from 'react-native';
+import { View, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import MainContainer from '../components/MainContainer';
 import SearchableDropdown from '../components/SearchableDropdown';
 import BestMythicPlusRuns from '../components/BestMythicPlusRuns';
@@ -20,9 +20,10 @@ const defaultData = {
   mythic_plus_best_runs: [],
 };
 
-const HomeScreen = (navigation: any) => {
+const HomeScreen = props => {
   const [characterInformation, setCharacterInformation] = useState(defaultData);
   const [overallScore, setOverallScore] = useState(0);
+  const windowHeight = Dimensions.get('window').height;
   return (
     <MainContainer zIndex={0}>
       <View
@@ -34,18 +35,19 @@ const HomeScreen = (navigation: any) => {
       <CharacterBanner
         score={overallScore}
         characterInformation={characterInformation}
+        charClass={characterInformation.class}
       />
       <SafeAreaView
         style={
           {
-            //   marginTop: -17,
+            // marginTop: -17,
           }
         }
       >
         <ScrollView
           bounces={false}
           style={{
-            height: 530,
+            height: '81%',
           }}
         >
           <BestMythicPlusRuns characterRuns={characterInformation} />

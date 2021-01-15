@@ -17,7 +17,6 @@ const BestMythicPlusRuns = ({ characterRuns }: Props) => {
   try {
     if (characterRuns) {
       characterRuns.mythic_plus_best_runs.forEach((run: Run, index: number) => {
-        console.log(run.dungeon);
         elements.push(<MythicPlusRunCard data={run} key={run.dungeon} />);
       });
     }
