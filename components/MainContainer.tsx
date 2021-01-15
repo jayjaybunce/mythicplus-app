@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 import { View } from 'react-native';
 
 const Container = styled.View`
-  background-color: grey;
+  background-color: black;
   margin: 0;
   padding: 0;
   height: 100%;

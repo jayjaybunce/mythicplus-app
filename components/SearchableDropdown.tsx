@@ -9,11 +9,9 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { Icon, withTheme } from 'react-native-elements';
-
-import { info } from 'console';
 import realmList from '../data/realms';
-
 import fetchCharacterData from '../data/getters/characterInfo';
+import { CharacterInformation, Run } from '../Types';
 
 const data = realmList;
 
@@ -21,6 +19,7 @@ type Props = {
   placeholderOne: string;
   placeholderTwo: string;
   updater: () => void;
+  setOverallScore: () => void;
 };
 
 const styles = StyleSheet.create({
@@ -85,6 +84,7 @@ const SearchableDropdown = ({
   placeholderOne,
   placeholderTwo,
   updater,
+  setOverallScore,
 }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [valueOne, setValueOne] = useState('');
@@ -98,6 +98,16 @@ const SearchableDropdown = ({
       return '#36a84d';
     }
     return '#3776A8';
+  };
+
+  const updateHigherState = (charInfo: CharacterInformation) => {
+    updater(charInfo);
+    const runs = charInfo.mythic_plus_best_runs;
+    let temp = 0;
+    runs.forEach((run: Run) => {
+      temp += run.score;
+    });
+    setOverallScore(temp);
   };
 
   const onValueSelect = selection => {
@@ -128,7 +138,7 @@ const SearchableDropdown = ({
     };
     await fetchCharacterData(queryData)
       .then(res => res.json())
-      .then(result => updater(result));
+      .then(result => updateHigherState(result));
   };
   return (
     <View

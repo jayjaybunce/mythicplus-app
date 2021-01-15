@@ -27,7 +27,7 @@ const App: React.FC<Props> = () => {
             headerTitleStyle: {
               color: '#3776A8',
               fontFamily: 'Helvetica',
-              fontWeight: '300',
+              fontWeight: '400',
             },
           }}
         />

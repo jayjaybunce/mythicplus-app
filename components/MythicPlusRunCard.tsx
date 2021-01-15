@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ImageBackground } from 'react-native';
 import styled from '@emotion/native';
 import AffixImages from '../data/affixImages';
-import dungeonImages from '../data/dungeonImages';
+import DungeonSplashImages from '../data/dungeonSplashImages';
 import { Run } from '../Types';
 
 const Card = styled.View`
-  width: 80%;
-  height: 30px;
+  width: 90%;
+  margin: 0 auto;
+  height: 100px;
   display: flex;
   flex-direction: row;
   z-index: 0;
@@ -34,22 +35,30 @@ type Props = {
 
 const MythicPlusRunCard = ({ data }: Props) => {
   return (
-    <Card>
-      <Title>{data.dungeon}</Title>
+    <ImageBackground
+      source={DungeonSplashImages[data.dungeon]}
+      style={{
+        width: '100%',
+        height: 100,
+      }}
+    >
+      <Card>
+        <Title>{data.dungeon}</Title>
 
-      <Text>
-        {data.mythic_level}
+        <Text>
+          {data.mythic_level}
 
-        {data.num_keystone_upgrades}
-      </Text>
-      <AffixContainer>
-        {data.affixes.map((affix, index) => {
-          return (
-            <AffixImage source={AffixImages[affix.name]} key={affix.name} />
-          );
-        })}
-      </AffixContainer>
-    </Card>
+          {data.num_keystone_upgrades}
+        </Text>
+        <AffixContainer>
+          {data.affixes.map((affix, index) => {
+            return (
+              <AffixImage source={AffixImages[affix.name]} key={affix.name} />
+            );
+          })}
+        </AffixContainer>
+      </Card>
+    </ImageBackground>
   );
 };
 
