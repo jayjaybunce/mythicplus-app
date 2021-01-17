@@ -20,7 +20,7 @@ const simplifyString = (str: string) => {
 const fetchCharacterData = async ({ realm, name }: QueryData) => {
   const query = `https://raider.io/api/v1/characters/profile?region=us&realm=${simplifyString(
     realm,
-  )}&name=${name}&fields=mythic_plus_best_runs`;
+  )}&name=${name}&fields=gear%2Cmythic_plus_best_runs`;
   return fetch(query).then(response => response);
 };
 

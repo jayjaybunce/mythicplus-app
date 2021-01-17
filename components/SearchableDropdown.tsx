@@ -15,13 +15,6 @@ import { CharacterInformation, Run } from '../Types';
 
 const data = realmList;
 
-type Props = {
-  placeholderOne: string;
-  placeholderTwo: string;
-  updater: () => void;
-  setOverallScore: () => void;
-};
-
 const styles = StyleSheet.create({
   container: {
     margin: 0,
@@ -80,13 +73,20 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  placeholderOne: string;
+  placeholderTwo: string;
+  updater: () => void;
+  setOverallScore: () => void;
+};
+
 const SearchableDropdown = ({
   placeholderOne,
   placeholderTwo,
   updater,
   setOverallScore,
-  setIsDataFetched,
-}: Props) => {
+}: // setIsDataFetched,
+Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [valueOne, setValueOne] = useState('');
   const [valueTwo, setValueTwo] = useState('');
@@ -101,7 +101,7 @@ const SearchableDropdown = ({
     return '#3776A8';
   };
 
-  const updateHigherState = (charInfo: CharacterInformation) => {
+  const updateHigherState = charInfo => {
     updater(charInfo);
     const runs = charInfo.mythic_plus_best_runs;
     let temp = 0;
@@ -109,7 +109,7 @@ const SearchableDropdown = ({
       temp += run.score;
     });
     setOverallScore(temp);
-    setIsDataFetched(true);
+    // setIsDataFetched(true);
   };
 
   const onValueSelect = selection => {

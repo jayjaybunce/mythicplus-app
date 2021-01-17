@@ -42,14 +42,14 @@ const InnerAffixContainer = styled.View`
   margin: 0 auto;
 `;
 const Title = styled.Text`
-  font-family: Helvatica;
+  font-family: Helvetica;
   font-size: 22px;
   color: white;
-  font-weight: 500;
+  font-weight: 400;
   width: 55%;
   text-shadow: 0 0 3px #2c6999;
-  margin-top: 10;
-  margin-left: 10;
+  margin-top: 10px;
+  margin-left: 10px;
   position: absolute;
 `;
 

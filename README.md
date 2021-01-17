@@ -14,6 +14,7 @@ World Of Warcraft is my favorite game and a core system of the game offers an ev
  - [x] Design Search component that allows user to guess the users realm as they type
  - [x] Display players best/highest scored run for each dungeon
  - [ ] Display recent runs for each dungeon
+ - [ ] Allow the user to request and update on the character after search request completes
 
 ### Long Term Plans
  - [ ] Allow users to login via Battle.Net OAuth API

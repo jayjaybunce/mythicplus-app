@@ -3,6 +3,7 @@ const realmList = [
   'Area 52',
   "Jubei'Thos",
   "Mal'Ganis",
+  'Boulderfist',
   'Tichondrius',
   "Zul'jin",
   'Stormrage',

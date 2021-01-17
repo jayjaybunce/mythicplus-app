@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Text, SearchBar } from 'react-native-elements';
-import { View, ScrollView, SafeAreaView, Dimensions } from 'react-native';
+import { View, ScrollView, SafeAreaView } from 'react-native';
 import MainContainer from '../components/MainContainer';
 import SearchableDropdown from '../components/SearchableDropdown';
 import BestMythicPlusRuns from '../components/BestMythicPlusRuns';
@@ -18,12 +18,26 @@ const defaultData = {
   honorable_kills: 0,
   last_crawled_at: '',
   mythic_plus_best_runs: [],
+  gear: {
+    item_level_equipped: 0,
+    item_level_total: 0,
+    artifact_traits: 0,
+    corruption: {
+      added: 0,
+      resisted: 0,
+      total: 0,
+      cloakRank: 0,
+      spells: [],
+    },
+    items: [],
+  },
 };
 
-const HomeScreen = props => {
+type Props = null;
+
+const HomeScreen: React.FC<Props> = props => {
   const [characterInformation, setCharacterInformation] = useState(defaultData);
   const [overallScore, setOverallScore] = useState(0);
-  const windowHeight = Dimensions.get('window').height;
   return (
     <MainContainer zIndex={0}>
       <View
@@ -35,7 +49,6 @@ const HomeScreen = props => {
       <CharacterBanner
         score={overallScore}
         characterInformation={characterInformation}
-        charClass={characterInformation.class}
       />
       <SafeAreaView
         style={
