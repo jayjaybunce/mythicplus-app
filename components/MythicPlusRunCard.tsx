@@ -32,11 +32,12 @@ const AffixContainer = styled.View`
 `;
 
 const InnerAffixContainer = styled.View`
-  width: 70%;
+  width: 50%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: #111214;
+  background-color: rgba(17, 18, 20, 0.6);
+
   padding: 5px;
   border-radius: 5px;
   margin: 0 auto;

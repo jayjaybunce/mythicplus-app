@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/native';
 import { View, Text, Image } from 'react-native';
+import { get } from 'https';
 import RoleIcons from '../data/roleIcons';
 import ClassAttributes from '../data/classAttributes';
 
@@ -10,6 +11,21 @@ const getTimeSinceUpdate = (dateString: string) => {
   const lastUpdatedMs = lastUpdatedDate.getTime();
   const currentDateMs = currentDate.getTime();
   const difference = currentDateMs - lastUpdatedMs;
+
+  const hoursSinceUpdate = difference / 1000 / 3600;
+
+  if (hoursSinceUpdate > 24) {
+    const numDays = hoursSinceUpdate / 24;
+    const days = numDays.toFixed(0);
+    if (days === '1') {
+      return `Last updated a day ago`;
+    }
+    return `Last updated ${numDays} days ago`;
+  }
+  if (hoursSinceUpdate > 1) {
+    return `Last updated an hour ago`;
+  }
+  return `Last updated ${hoursSinceUpdate.toFixed(0)} hours ago`;
 };
 
 const BannerContainer = styled.View`
@@ -18,7 +34,9 @@ const BannerContainer = styled.View`
   background-color: #101114;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   padding: 1px;
+  flex-wrap: wrap;
 `;
 
 const RoleImage = styled.Image`
@@ -65,9 +83,24 @@ const CharacterBanner = ({ score, characterInformation }) => {
     const spec = characterInformation.active_spec_name;
     const charClass = characterInformation.class;
     const itemLevel = characterInformation.gear.item_level_equipped;
+    const timeSinceUpdate = getTimeSinceUpdate(
+      characterInformation.last_crawled_at,
+    );
     return (
       <BannerContainer>
         <Badge>
+          <RoleImage
+            source={ClassAttributes[charClass].icon}
+            style={{
+              height: 20,
+              width: 20,
+              marginTop: 3,
+            }}
+          />
+          <RoleImage
+            style={{ height: 25, width: 25 }}
+            source={RoleIcons[role]}
+          />
           <BadgeText
             style={{
               color: ClassAttributes[charClass].color,
@@ -85,8 +118,9 @@ const CharacterBanner = ({ score, characterInformation }) => {
           <BadgeTitle>{`Item Level `}</BadgeTitle>
           <BadgeText>{itemLevel}</BadgeText>
         </Badge>
-        <RoleImage source={RoleIcons[role]} />
-        <RoleImage source={ClassAttributes[charClass].icon} />
+        <Badge>
+          <BadgeText>{timeSinceUpdate}</BadgeText>
+        </Badge>
       </BannerContainer>
     );
   }

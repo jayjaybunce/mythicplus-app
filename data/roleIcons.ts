@@ -1,7 +1,7 @@
 const RoleIcons = {
-  DPS: require('../assets/img/role-icons/DPS.jpg'),
-  HEALING: require('../assets/img/role-icons/HEALING.jpg'),
-  TANK: require('../assets/img/role-icons/TANK.jpg'),
+  DPS: require('../assets/img/role-icons/DPS.png'),
+  HEALING: require('../assets/img/role-icons/HEALING.png'),
+  TANK: require('../assets/img/role-icons/TANK.png'),
 };
 
 export default RoleIcons;
