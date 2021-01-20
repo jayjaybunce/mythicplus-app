@@ -18,9 +18,24 @@ const defaultData = {
   honorable_kills: 0,
   last_crawled_at: '',
   mythic_plus_best_runs: [],
+  gear: {
+    item_level_equipped: 0,
+    item_level_total: 0,
+    artifact_traits: 0,
+    corruption: {
+      added: 0,
+      resisted: 0,
+      total: 0,
+      cloakRank: 0,
+      spells: [],
+    },
+    items: [],
+  },
 };
 
-const HomeScreen = (navigation: any) => {
+type Props = null;
+
+const HomeScreen: React.FC<Props> = props => {
   const [characterInformation, setCharacterInformation] = useState(defaultData);
   const [overallScore, setOverallScore] = useState(0);
   return (
@@ -35,28 +50,15 @@ const HomeScreen = (navigation: any) => {
         score={overallScore}
         characterInformation={characterInformation}
       />
-      <SafeAreaView
-        style={
-          {
-            //   marginTop: -17,
-          }
-        }
-      >
-        <ScrollView
-          bounces={false}
-          style={{
-            height: 530,
-          }}
-        >
-          <BestMythicPlusRuns characterRuns={characterInformation} />
-        </ScrollView>
-      </SafeAreaView>
+
+      <BestMythicPlusRuns characterRuns={characterInformation} />
 
       <SearchableDropdown
         placeholderOne="Realm"
         placeholderTwo="Name"
         updater={setCharacterInformation}
         setOverallScore={setOverallScore}
+        characterInformation={characterInformation}
       />
     </MainContainer>
   );

@@ -1,9 +1,9 @@
-export const ClassAttributes = {
+const ClassAttributes = {
   'Death Knight': {
     icon: require('../assets/img/class-icons/deathknight.jpg'),
     color: '#C41E3A',
   },
-  'Demon Huner': {
+  'Demon Hunter': {
     icon: require('../assets/img/class-icons/demonhunter.jpg'),
     color: '#A330C9',
   },
@@ -49,4 +49,4 @@ export const ClassAttributes = {
   },
 };
 
-export const RoleAttributes = {};
+export default ClassAttributes;

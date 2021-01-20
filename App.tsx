@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,6 +10,8 @@ const Stack = createStackNavigator();
 type Props = any;
 
 const App: React.FC<Props> = () => {
+  const [isDataFetched, setIsDataFetched] = useState(false);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -23,6 +24,7 @@ const App: React.FC<Props> = () => {
               backgroundColor: '#0e1014',
               borderBottomWidth: 0,
               shadowColor: 'transparent',
+              height: 40,
             },
             headerTitleStyle: {
               color: '#3776A8',
@@ -31,8 +33,25 @@ const App: React.FC<Props> = () => {
             },
           }}
         />
-        <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          title: 'Login',
+          headerStyle: {
+            backgroundColor: '#0e1014',
+            borderBottomWidth: 0,
+            shadowColor: 'transparent',
+            height: 40,
+          },
+          headerTitleStyle: {
+            color: '#3776A8',
+            fontFamily: 'Helvetica',
+            fontWeight: '400',
+          },
+        }}
+      />
     </NavigationContainer>
   );
 };

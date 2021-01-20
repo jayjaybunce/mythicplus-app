@@ -10,17 +10,10 @@ import {
 } from 'react-native';
 import { Icon, withTheme } from 'react-native-elements';
 import realmList from '../data/realms';
-import fetchCharacterData from '../data/getters/characterInfo';
+import { fetchCharacterData } from '../data/getters/characterInfo';
 import { CharacterInformation, Run } from '../Types';
 
 const data = realmList;
-
-type Props = {
-  placeholderOne: string;
-  placeholderTwo: string;
-  updater: () => void;
-  setOverallScore: () => void;
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +39,7 @@ const styles = StyleSheet.create({
     color: 'white',
     width: '40%',
   },
-  searchIcon: {
+  icon: {
     padding: 7,
     backgroundColor: '#181C24',
     borderRadius: 5,
@@ -80,12 +73,21 @@ const styles = StyleSheet.create({
   },
 });
 
+type Props = {
+  placeholderOne: string;
+  placeholderTwo: string;
+  updater: () => void;
+  setOverallScore: () => void;
+};
+
 const SearchableDropdown = ({
   placeholderOne,
   placeholderTwo,
   updater,
   setOverallScore,
-}: Props) => {
+  characterInformation,
+}: // setIsDataFetched,
+Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [valueOne, setValueOne] = useState('');
   const [valueTwo, setValueTwo] = useState('');
@@ -99,8 +101,10 @@ const SearchableDropdown = ({
     }
     return '#3776A8';
   };
-
-  const updateHigherState = (charInfo: CharacterInformation) => {
+  const requestCharUpdate = () => {
+    alert('Request Update from Raider.IO');
+  };
+  const updateHigherState = charInfo => {
     updater(charInfo);
     const runs = charInfo.mythic_plus_best_runs;
     let temp = 0;
@@ -108,6 +112,7 @@ const SearchableDropdown = ({
       temp += run.score;
     });
     setOverallScore(temp);
+    // setIsDataFetched(true);
   };
 
   const onValueSelect = selection => {
@@ -174,12 +179,25 @@ const SearchableDropdown = ({
             name="search"
             type="material"
             color="#3776A8"
-            style={styles.searchIcon}
+            style={styles.icon}
             onPress={onSearchPress}
           />
         ) : (
           <ActivityIndicator style={styles.activity} />
         )}
+        <Icon
+          name="autorenew"
+          type="material"
+          color={characterInformation.name ? '#00FD3A' : '#5c5c5c'}
+          style={styles.icon}
+          disabled={!characterInformation.name}
+          disabledStyle={{
+            backgroundColor: '#181C24',
+          }}
+          onPress={() => {
+            alert('pressed');
+          }}
+        />
       </View>
       <View
         style={{
