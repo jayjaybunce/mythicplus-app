@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/native';
-import { View } from 'react-native';
+import { View, SafeAreaView, ScrollView } from 'react-native';
 import MythicPlusRunCard from './MythicPlusRunCard';
 import { Run, Affix, CharacterInformation } from '../Types';
 
@@ -25,7 +25,19 @@ const BestMythicPlusRuns = ({ characterRuns }: Props) => {
       console.log(e);
     }
   }
-  return <Container>{elements}</Container>;
+  return (
+    <SafeAreaView>
+      <ScrollView
+        bounces={false}
+        style={{
+          height: '80%',
+          marginTop: 10,
+        }}
+      >
+        <Container>{elements}</Container>
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default BestMythicPlusRuns;

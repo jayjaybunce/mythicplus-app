@@ -13,9 +13,14 @@ const Card = styled.View`
   display: flex;
   flex-direction: row;
   z-index: 0;
-
   border-left-width: 5px;
   padding: 5px;
+`;
+
+const CardImage = styled.ImageBackground`
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
 `;
 
 const AffixImage = styled.Image`
@@ -79,14 +84,7 @@ const colors = {
 
 const MythicPlusRunCard = ({ data }: Props) => {
   return (
-    <ImageBackground
-      source={DungeonSplashImages[data.dungeon]}
-      style={{
-        width: '100%',
-        height: 100,
-        marginTop: 10,
-      }}
-    >
+    <CardImage source={DungeonSplashImages[data.dungeon]}>
       <Card
         style={{
           borderLeftColor: colors[`${data.num_keystone_upgrades}`],
@@ -114,7 +112,7 @@ const MythicPlusRunCard = ({ data }: Props) => {
           </InnerAffixContainer>
         </AffixContainer>
       </Card>
-    </ImageBackground>
+    </CardImage>
   );
 };
 

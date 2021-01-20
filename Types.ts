@@ -28,3 +28,20 @@ export type CharacterInformation = {
   last_crawled_at: string;
   mythic_plus_best_runs: Run[];
 };
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  userId: string;
+};
+
+export type Search = {
+  realm: string;
+  name: string;
+};
+
+export type Context = {
+  user: User | null;
+  searches: Search[] | [];
+};

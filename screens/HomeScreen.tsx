@@ -50,28 +50,15 @@ const HomeScreen: React.FC<Props> = props => {
         score={overallScore}
         characterInformation={characterInformation}
       />
-      <SafeAreaView
-        style={
-          {
-            // marginTop: -17,
-          }
-        }
-      >
-        <ScrollView
-          bounces={false}
-          style={{
-            height: '81%',
-          }}
-        >
-          <BestMythicPlusRuns characterRuns={characterInformation} />
-        </ScrollView>
-      </SafeAreaView>
+
+      <BestMythicPlusRuns characterRuns={characterInformation} />
 
       <SearchableDropdown
         placeholderOne="Realm"
         placeholderTwo="Name"
         updater={setCharacterInformation}
         setOverallScore={setOverallScore}
+        characterInformation={characterInformation}
       />
     </MainContainer>
   );
