@@ -9,8 +9,12 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { Icon, withTheme } from 'react-native-elements';
+import Toast from 'react-native-toast-message';
 import realmList from '../data/realms';
-import { fetchCharacterData } from '../data/getters/characterInfo';
+import {
+  fetchCharacterData,
+  updateCharacterData,
+} from '../data/getters/characterInfo';
 import { CharacterInformation, Run } from '../Types';
 
 const data = realmList;
@@ -18,12 +22,12 @@ const data = realmList;
 const styles = StyleSheet.create({
   container: {
     margin: 0,
-    padding: 15,
+    padding: 5,
     backgroundColor: '#0e1014',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '98%',
+    justifyContent: 'space-around',
+    width: '100%',
     zIndex: 1,
   },
   statusBar: {
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     borderRadius: 5,
     color: 'white',
-    width: '40%',
+    width: '36%',
   },
   icon: {
     padding: 7,
@@ -86,14 +90,17 @@ const SearchableDropdown = ({
   updater,
   setOverallScore,
   characterInformation,
+  displayToast,
 }: // setIsDataFetched,
 Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [valueOne, setValueOne] = useState('');
   const [valueTwo, setValueTwo] = useState('');
+  const [region, setRegion] = useState('');
+  const [realmId, setRealmId] = useState('');
   const [items, setItems] = useState([]);
-
   const inputEl = useRef(null);
+  console.log(region, realmId);
 
   const verificationChecker = () => {
     if (valueOne.length >= 2 && valueTwo.length >= 2) {
@@ -101,9 +108,27 @@ Props) => {
     }
     return '#3776A8';
   };
-  const requestCharUpdate = () => {
-    alert('Request Update from Raider.IO');
+  const requestCharUpdate = async () => {
+    const arg = {
+      realmId,
+      region,
+      realm: valueOne,
+      name: valueTwo,
+    };
+    await updateCharacterData(arg)
+      .then(res => res.json())
+      .then(result => {
+        if (result.success === true) {
+          displayToast(
+            'Success',
+            `Requested update on ${valueTwo}-${valueOne}`,
+          );
+        } else {
+          displayToast('Error', `An error occured, try again`);
+        }
+      });
   };
+
   const updateHigherState = charInfo => {
     updater(charInfo);
     const runs = charInfo.mythic_plus_best_runs;
@@ -116,26 +141,33 @@ Props) => {
   };
 
   const onValueSelect = selection => {
-    setValueOne(selection);
+    setValueOne(selection.name);
+    setRealmId(selection.realmId);
+    setRegion(selection.region);
     inputEl.current.focus();
     if (isFocused === true) {
       setIsFocused(false);
     }
   };
 
-  const onInputChange = (e: any) => {
-    if (e === ' ') {
-      setItems([]);
-    }
+  const onInputChange = e => {
+    console.log('e ==', e);
     setValueOne(e);
+    console.log(valueOne);
+    if (e === ' ' || e === '') {
+      setItems([]);
+      return;
+    }
     const temp: string[] | [] = [];
-    data.forEach((item: string) => {
-      if (item.slice(0, valueOne.length) === valueOne) {
+    data.forEach(item => {
+      const name = item.name.slice(0, valueOne.length);
+      if (name === valueOne) {
         temp.push(item);
       }
     });
     setItems(temp);
   };
+
   const onSearchPress = async () => {
     const queryData = {
       realm: valueOne,
@@ -145,6 +177,7 @@ Props) => {
       .then(res => res.json())
       .then(result => updateHigherState(result));
   };
+
   return (
     <View
       style={{
@@ -159,7 +192,7 @@ Props) => {
           placeholder={placeholderOne || 'Search'}
           placeholderTextColor="#828181"
           value={valueOne}
-          onChangeText={e => onInputChange(e)}
+          onChangeText={onInputChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
@@ -194,9 +227,7 @@ Props) => {
           disabledStyle={{
             backgroundColor: '#181C24',
           }}
-          onPress={() => {
-            alert('pressed');
-          }}
+          onPress={requestCharUpdate}
         />
       </View>
       <View
@@ -216,11 +247,11 @@ Props) => {
         {items.map(item => {
           return (
             <TouchableHighlight
-              key={item}
+              key={item.name}
               onPress={() => onValueSelect(item)}
               style={styles.popoutOption}
             >
-              <Text style={styles.popoutOptionText}>{item}</Text>
+              <Text style={styles.popoutOptionText}>{item.name}</Text>
             </TouchableHighlight>
           );
         })}

@@ -15,6 +15,7 @@ const Card = styled.View`
   z-index: 0;
   border-left-width: 5px;
   padding: 5px;
+  overflow: hidden;
 `;
 
 const CardImage = styled.ImageBackground`
@@ -71,6 +72,26 @@ const Level = styled.Text`
   height: 100%;
 `;
 
+const UpgradesBanner = styled.View`
+  height: 60px;
+  background-color: rgba(17, 18, 20, 0.7);
+  width: 30px;
+  position: absolute;
+  right: -5px;
+  top: -20px;
+  text-align: center;
+  transform: rotate(-45deg);
+`;
+
+const UpgradeText = styled.Text`
+  transform: rotate(45deg);
+  line-height: 60px;
+  text-align: left;
+  color: white;
+  font-family: Helvetica;
+  font-size: 16px;
+`;
+
 type Props = {
   data: Run;
 };
@@ -91,17 +112,17 @@ const MythicPlusRunCard = ({ data }: Props) => {
         }}
       >
         <Title>{data.dungeon}</Title>
+        <UpgradesBanner>
+          <UpgradeText
+            style={{
+              color: colors[data.num_keystone_upgrades],
+            }}
+          >
+            {`+${data.num_keystone_upgrades}`}
+          </UpgradeText>
+        </UpgradesBanner>
 
-        {/* {data.num_keystone_upgrades} */}
-        <Level
-          style={
-            {
-              // color: colors[`${data.num_keystone_upgrades}`]
-            }
-          }
-        >
-          {`+${data.mythic_level}`}
-        </Level>
+        <Level>{`+${data.mythic_level}`}</Level>
         <AffixContainer>
           <InnerAffixContainer>
             {data.affixes.map((affix, index) => {

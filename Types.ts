@@ -19,6 +19,7 @@ export type Run = {
 
 export type CharacterInformation = {
   achievement_points: number;
+  region: string;
   active_spec_name: string;
   active_spec_role: string;
   class: string;
