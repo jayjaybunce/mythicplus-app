@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Toast from 'react-native-toast-message';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 
@@ -24,7 +25,7 @@ const App: React.FC<Props> = () => {
               backgroundColor: '#0e1014',
               borderBottomWidth: 0,
               shadowColor: 'transparent',
-              height: 40,
+              height: 70,
             },
             headerTitleStyle: {
               color: '#3776A8',

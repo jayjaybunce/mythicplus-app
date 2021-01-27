@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 72629,
+  "packagerPort": 19000,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://fp-iee.nandesuka.mythicplus-app.exp.direct",
   "packagerNgrokUrl": "https://packager.fp-iee.nandesuka.mythicplus-app.exp.direct",
-  "ngrokPid": 72641,
+  "ngrokPid": 30341,
   "webpackServerPort": null
 }

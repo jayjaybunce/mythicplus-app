@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Text, SearchBar } from 'react-native-elements';
 import { View, ScrollView, SafeAreaView } from 'react-native';
+import Toast from 'react-native-toast-message';
 import MainContainer from '../components/MainContainer';
 import SearchableDropdown from '../components/SearchableDropdown';
 import BestMythicPlusRuns from '../components/BestMythicPlusRuns';
@@ -10,6 +11,7 @@ import CharacterBanner from '../components/CharacterBanner';
 const defaultData = {
   achievement_points: 0,
   name: '',
+  region: '',
   active_spec_name: '',
   active_spec_role: '',
   class: '',
@@ -35,6 +37,14 @@ const defaultData = {
 
 type Props = null;
 
+const displayToast = (status, message) => {
+  Toast.show({
+    text1: status,
+    text2: message,
+    topOffset: 50,
+  });
+};
+
 const HomeScreen: React.FC<Props> = props => {
   const [characterInformation, setCharacterInformation] = useState(defaultData);
   const [overallScore, setOverallScore] = useState(0);
@@ -52,6 +62,7 @@ const HomeScreen: React.FC<Props> = props => {
       />
 
       <BestMythicPlusRuns characterRuns={characterInformation} />
+      <Toast ref={ref => Toast.setRef(ref)} />
 
       <SearchableDropdown
         placeholderOne="Realm"
@@ -59,6 +70,7 @@ const HomeScreen: React.FC<Props> = props => {
         updater={setCharacterInformation}
         setOverallScore={setOverallScore}
         characterInformation={characterInformation}
+        displayToast={displayToast}
       />
     </MainContainer>
   );

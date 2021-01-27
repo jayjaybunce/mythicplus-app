@@ -24,17 +24,21 @@ export const fetchCharacterData = async ({ realm, name }: QueryData) => {
   return fetch(query).then(response => response);
 };
 
-export const updateCharacterData = async ({ realm, name }: QueryData) => {
-  const query = `https://raider.io/api/crawler/characters`;
-  let realmId;
-  let region;
-  const data = {
+export const updateCharacterData = async charInfo => {
+  const { name, realm, realmId, region } = charInfo;
+  const payload = {
+    character: name,
     realmId,
     realm,
     region,
-    character: name,
   };
-  return fetch(query, { method: 'POST', body: data }).then(response =>
-    console.log(response),
-  );
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  };
+
+  return fetch('https://raider.io/api/crawler/characters', requestOptions);
 };
