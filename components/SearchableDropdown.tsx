@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -16,6 +16,8 @@ import {
   updateCharacterData,
 } from '../data/getters/characterInfo';
 import { CharacterInformation, Run } from '../Types';
+import CharacterContext from '../context/CharacterContext';
+import getTimeSinceUpdate from '../utils/TimeAndDate';
 
 const data = realmList;
 
@@ -80,19 +82,14 @@ const styles = StyleSheet.create({
 type Props = {
   placeholderOne: string;
   placeholderTwo: string;
-  updater: () => void;
-  setOverallScore: () => void;
 };
 
 const SearchableDropdown = ({
   placeholderOne,
   placeholderTwo,
-  updater,
-  setOverallScore,
-  characterInformation,
   displayToast,
-}: // setIsDataFetched,
-Props) => {
+}: Props) => {
+  const [characterContext, setCharacterContext] = useContext(CharacterContext);
   const [isFocused, setIsFocused] = useState(false);
   const [valueOne, setValueOne] = useState('');
   const [valueTwo, setValueTwo] = useState('');
@@ -100,7 +97,23 @@ Props) => {
   const [realmId, setRealmId] = useState('');
   const [items, setItems] = useState([]);
   const inputEl = useRef(null);
-  console.log(region, realmId);
+
+  const updateCharacterContext = charInfo => {
+    const runs = charInfo.mythic_plus_best_runs;
+    let temp = 0;
+    runs.forEach((run: Run) => {
+      temp += run.score;
+    });
+    setCharacterContext({
+      ...charInfo,
+      score: temp,
+      role: charInfo.active_spec_role,
+      spec: charInfo.active_spec_name,
+      charClass: charInfo.class,
+      itemLevel: charInfo.gear.item_level_equipped,
+      timeSinceUpdate: getTimeSinceUpdate(charInfo.last_crawled_at),
+    });
+  };
 
   const verificationChecker = () => {
     if (valueOne.length >= 2 && valueTwo.length >= 2) {
@@ -108,6 +121,7 @@ Props) => {
     }
     return '#3776A8';
   };
+
   const requestCharUpdate = async () => {
     const arg = {
       realmId,
@@ -129,17 +143,6 @@ Props) => {
       });
   };
 
-  const updateHigherState = charInfo => {
-    updater(charInfo);
-    const runs = charInfo.mythic_plus_best_runs;
-    let temp = 0;
-    runs.forEach((run: Run) => {
-      temp += run.score;
-    });
-    setOverallScore(temp);
-    // setIsDataFetched(true);
-  };
-
   const onValueSelect = selection => {
     setValueOne(selection.name);
     setRealmId(selection.realmId);
@@ -150,10 +153,8 @@ Props) => {
     }
   };
 
-  const onInputChange = e => {
-    console.log('e ==', e);
+  const onInputChange = (e: string) => {
     setValueOne(e);
-    console.log(valueOne);
     if (e === ' ' || e === '') {
       setItems([]);
       return;
@@ -175,7 +176,9 @@ Props) => {
     };
     await fetchCharacterData(queryData)
       .then(res => res.json())
-      .then(result => updateHigherState(result));
+      .then(result =>
+        result.statusCode === 400 ? '' : updateCharacterContext(result),
+      );
   };
 
   return (
@@ -221,9 +224,9 @@ Props) => {
         <Icon
           name="autorenew"
           type="material"
-          color={characterInformation.name ? '#00FD3A' : '#5c5c5c'}
+          color={characterContext.name ? '#00FD3A' : '#5c5c5c'}
           style={styles.icon}
-          disabled={!characterInformation.name}
+          disabled={!characterContext.name}
           disabledStyle={{
             backgroundColor: '#181C24',
           }}

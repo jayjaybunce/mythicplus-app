@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/native';
 import { View, SafeAreaView, ScrollView } from 'react-native';
 import MythicPlusRunCard from './MythicPlusRunCard';
 import { Run, Affix, CharacterInformation } from '../Types';
+import CharacterContext from '../context/CharacterContext';
 
 const Container = styled.View`
   z-index: 0;
@@ -14,11 +15,15 @@ type Props = {
 
 const BestMythicPlusRuns = ({ characterRuns }: Props) => {
   const elements: React.ReactNodeArray = [];
+  const [characterContext, setCharacterContext] = useContext(CharacterContext);
+
   try {
-    if (characterRuns) {
-      characterRuns.mythic_plus_best_runs.forEach((run: Run, index: number) => {
-        elements.push(<MythicPlusRunCard data={run} key={run.dungeon} />);
-      });
+    if (characterContext) {
+      characterContext.mythic_plus_best_runs.forEach(
+        (run: Run, index: number) => {
+          elements.push(<MythicPlusRunCard data={run} key={run.dungeon} />);
+        },
+      );
     }
   } catch (e) {
     if (e) {

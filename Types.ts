@@ -45,4 +45,5 @@ export type Search = {
 export type Context = {
   user: User | null;
   searches: Search[] | [];
+  setUser: () => string;
 };
